@@ -1,0 +1,1 @@
+"""Face Authentication application package."""

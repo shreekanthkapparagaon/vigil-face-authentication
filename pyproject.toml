@@ -1,0 +1,29 @@
+[project]
+name = "face-auth"
+version = "0.1.0"
+description = "Modern desktop face authentication application"
+readme = "README.md"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "numpy>=2.2,<3.0",
+    "opencv-contrib-python>=5.0.0.93",
+    "opencv-python>=4.10,<5.0",
+    "pydantic>=2.10,<3.0",
+    "PyQt6>=6.8,<7.0",
+    "python-dotenv>=1.0,<2.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<9.0",
+]
+
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
