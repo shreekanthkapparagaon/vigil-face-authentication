@@ -1,8 +1,34 @@
 # VIGIL — Face Authentication System
 
-A futuristic, local biometric authentication system built with **Python, PySide6, OpenCV, YuNet, SFace, and SQLite**.
+A futuristic, local biometric authentication system built with **Python, PyQt6, OpenCV, YuNet, SFace, and SQLite**.
 
 VIGIL provides real-time face detection, biometric enrollment, face recognition, identity management, and authentication through a modern desktop interface.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [How It Works](#how-it-works)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Biometric Data](#biometric-data)
+- [Security & Privacy](#security--privacy)
+- [Application Interface](#application-interface)
+  - [Dashboard](#dashboard)
+  - [Identity Registration](#identity-registration)
+  - [Identity Authentication](#identity-authentication)
+  - [Identity Management](#identity-management)
+  - [System Settings](#system-settings)
+- [Windows Executable](#windows-executable)
+- [Configuration](#configuration)
+- [Development](#development)
+- [Project Status](#project-status)
+- [Author](#author)
+- [License](#license)
 
 ## Features
 
@@ -33,7 +59,7 @@ VIGIL provides real-time face detection, biometric enrollment, face recognition,
 - ⚙️ **System Settings**
   - Recognition threshold, detection scale, engine/database information, embedding cache, system status, application information, developer information, and maintenance tools.
 - 🖥️ **Modern Desktop UI**
-  - Built with PySide6.
+  - Built with PyQt6.
   - Dark futuristic interface with neon cyan biometric/security styling.
   - Console-inspired typography.
 
@@ -123,7 +149,7 @@ Identity verified / rejected
 | Component | Technology |
 |---|---|
 | Language | Python |
-| GUI | PySide6 |
+| GUI | PyQt6 |
 | Computer Vision | OpenCV |
 | Face Detection | YuNet |
 | Face Recognition | SFace |
@@ -142,29 +168,41 @@ Face-Authentication/
 │   ├── assets/
 │   │   ├── icon.ico
 │   │   └── icon.png
+│   ├── database/
+│   ├── face/
+│   ├── schemas/
+│   ├── services/
 │   ├── ui/
-│   │   ├── main_window.py
-│   │   ├── camera_widget.py
-│   │   └── ...
-│   ├── ...
+│   ├── config.py
 │   └── __main__.py
 │
 ├── data/
-│   ├── *.onnx
-│   └── .gitkeep
+│   ├── face_detection_yunet_2023mar.onnx
+│   └── face_recognition_sface_2021dec.onnx
+│
+├── docs/
+│   └── images/
+│       ├── dashboard.png
+│       ├── registration.png
+│       ├── authentication.png
+│       ├── users.png
+│       └── settings.png
 │
 ├── tests/
+├── .env.example
 ├── .gitignore
+├── main.py
 ├── pyproject.toml
+├── uv.lock
 └── README.md
 ```
 
-> The exact internal modules may evolve as the project develops.
+> The internal project structure may evolve as VIGIL continues to develop.
 
 ## Requirements
 
 - Windows 10/11
-- Python 3.11+ recommended
+- Python 3.13
 - Webcam
 - Dependencies defined in `pyproject.toml`
 - YuNet and SFace `.onnx` model files
@@ -174,8 +212,8 @@ Face-Authentication/
 Clone the repository:
 
 ```bash
-git clone https://github.com/shreekanthkapparagaon/Face-Authentication.git
-cd Face-Authentication
+git clone https://github.com/shreekanthkapparagaon/vigil-face-authentication.git
+cd vigil-face-authentication
 ```
 
 Sync the project environment using `uv`:
@@ -214,7 +252,7 @@ Local Embedding Cache
 
 The local database and runtime biometric data are intentionally excluded from Git through `.gitignore`.
 
-The required `.onnx` detection and recognition models remain part of the application's runtime requirements.
+The required `.onnx` detection and recognition models are stored in the `data/` directory and are required at runtime.
 
 ## Security & Privacy
 
@@ -231,43 +269,171 @@ VIGIL is designed around local processing.
 
 ## Application Interface
 
+VIGIL provides a clean desktop interface for biometric registration, real-time authentication, identity management, and system monitoring.
+
+### Dashboard
+
+The dashboard provides a real-time overview of the VIGIL authentication system, including registered identities, engine status, diagnostics, configuration information, security status, and quick actions.
+
+![VIGIL Dashboard](docs/images/dashboard.png)
+
 ```text
 SYSTEM OVERVIEW
-│
-├── Dashboard
-│   ├── System Summary
-│   ├── Quick Actions
-│   ├── System Diagnostics
-│   ├── Engine Information
+
+├── System Summary
+│   ├── Registered Identities
+│   ├── Authentication Engine
+│   ├── Vision Sensor
 │   └── Security Status
 │
-├── Register Identity
-│   ├── Camera
-│   ├── Identity Information
-│   ├── Biometric Capture
-│   └── Enrollment Status
+├── Biometric Control
+│   ├── Start Authentication
+│   ├── Register Identity
+│   ├── Manage Identities
+│   └── System Settings
 │
-├── Identity Authentication
-│   ├── Live Camera
+├── System Diagnostics
+│   ├── Face Detector
+│   ├── Recognition Engine
+│   ├── Database
+│   ├── Embedding Cache
+│   ├── Authentication Service
+│   └── Camera Subsystem
+│
+├── Engine Information
+│   ├── Face Detector
+│   ├── Recognition Model
+│   ├── Matching Method
+│   ├── Detection Scale
+│   ├── Match Threshold
+│   └── Processing Mode
+│
+└── Security Status
+    └── Biometric Verification
+```
+
+### Identity Registration
+
+The registration interface captures multiple face samples from the live camera and creates a biometric profile for the identity.
+
+![VIGIL Registration](docs/images/registration.png)
+
+```text
+REGISTER IDENTITY
+
+├── Camera
+│   └── Live Face Detection
+│
+├── Identity Data
+│   ├── User Code
+│   ├── First Name
+│   ├── Last Name
+│   ├── Email
+│   └── Phone
+│
+├── Biometric Capture
+│   ├── Sample Collection
+│   ├── Enrollment Progress
+│   └── Capture Status
+│
+└── Registration Controls
+    ├── Start Biometric Enrollment
+    └── Reset Form
+```
+
+### Identity Authentication
+
+The authentication interface performs real-time biometric verification using the live camera feed and registered face embeddings.
+
+![VIGIL Authentication](docs/images/authentication.png)
+
+```text
+IDENTITY AUTHENTICATION
+
+├── Live Camera
+│   └── Face Detection
+│
+├── Authentication Core
 │   ├── Authentication Status
 │   ├── Similarity Score
-│   └── Matched Identity
+│   ├── Matched Identity
+│   └── Authentication Message
 │
-├── Users
-│   ├── Search
-│   ├── Identity List
-│   ├── View
-│   ├── Edit
-│   └── Delete
+└── Verification States
+    ├── Waiting for Face
+    ├── Identity Verified
+    └── Access Not Verified
+```
+
+### Identity Management
+
+The Users interface provides a centralized view of registered biometric identities with search and management operations.
+
+![VIGIL Users](docs/images/users.png)
+
+```text
+IDENTITY DATABASE
+
+├── Search
+│   └── Identity / Code / Email / Phone
 │
-└── Settings
-    ├── Recognition Engine
-    ├── Vision Engine
-    ├── Database
-    ├── System Status
-    ├── Application Information
-    ├── Developer Information
-    └── Maintenance
+├── Identity List
+│   ├── Code
+│   ├── Identity
+│   ├── Status
+│   └── Last Authentication
+│
+└── Identity Actions
+    ├── View
+    ├── Edit
+    └── Delete
+```
+
+### System Settings
+
+The settings interface provides information about the biometric engine, vision system, database, runtime status, application, and maintenance.
+
+![VIGIL Settings](docs/images/settings.png)
+
+```text
+SYSTEM CONFIGURATION
+
+├── Recognition Engine
+│   ├── Face Match Threshold
+│   ├── Recognition Model
+│   └── Matching Method
+│
+├── Vision Engine
+│   ├── Detection Scale
+│   ├── Face Detector
+│   └── Processing Mode
+│
+├── Database
+│   ├── Database Type
+│   ├── Embedding Cache
+│   ├── Profile Format
+│   └── Loaded Profiles
+│
+├── System Status
+│   ├── Application
+│   ├── Authentication Engine
+│   ├── Database
+│   └── Camera
+│
+├── Application Information
+│   ├── Application Name
+│   ├── Version
+│   ├── Build
+│   └── Environment
+│
+├── Developer Information
+│   ├── Developer
+│   ├── Project
+│   ├── Technology
+│   └── Architecture
+│
+└── Maintenance
+    └── Refresh Embedding Cache
 ```
 
 ## Windows Executable
@@ -313,6 +479,9 @@ Run tests:
 uv run pytest
 ```
 
+---
+
+
 ## Project Status
 
 **Version:** `1.0.0`  
@@ -320,14 +489,20 @@ uv run pytest
 
 VIGIL is being developed as a local desktop biometric authentication platform.
 
+---
+
 ## Author
 
 **Shreekanth Kapparagaon**
 
 VIGIL Face Authentication System
 
-Built with Python, PySide6, OpenCV, YuNet, SFace, and SQLite.
+Built with Python, PyQt6, OpenCV, YuNet, SFace, and SQLite.
+
+---
 
 ## License
 
-This project is currently under development. License information will be added when the project license is finalized.
+This project is licensed under the **MIT License**.
+
+See the [LICENSE](LICENSE) file for details.

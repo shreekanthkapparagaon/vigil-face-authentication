@@ -3152,7 +3152,7 @@ class MainWindow(QMainWindow):
         technology.setObjectName("fieldLabel")
         developer_layout.addWidget(technology)
 
-        technology_value = QLabel("Python • PySide6 • OpenCV • SQLite")
+        technology_value = QLabel("Python • PyQt6 • OpenCV • SQLite")
         technology_value.setObjectName("settingValue")
         developer_layout.addWidget(technology_value)
 

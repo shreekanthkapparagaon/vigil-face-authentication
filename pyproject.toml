@@ -1,13 +1,12 @@
 [project]
-name = "face-auth"
-version = "0.1.0"
-description = "Modern desktop face authentication application"
+name = "vigil-face-authentication"
+version = "1.0.0"
+description = "Modern local biometric face authentication system built with Python, PyQt6, OpenCV, YuNet, SFace, and SQLite."
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 dependencies = [
     "numpy>=2.2,<3.0",
-    "opencv-contrib-python>=5.0.0.93",
-    "opencv-python>=4.10,<5.0",
+    "opencv-contrib-python>=4.10,<5.0",
     "pydantic>=2.10,<3.0",
     "PyQt6>=6.8,<7.0",
     "python-dotenv>=1.0,<2.0",
